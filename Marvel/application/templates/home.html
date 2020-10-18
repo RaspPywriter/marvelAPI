@@ -1,0 +1,25 @@
+<!-- type in base.html-->
+{% extends 'base.html'%}
+<head>
+
+
+{% block head %}
+<title>Marvel Heroes!</title>
+
+{% endblock %}
+ </head>
+<body>
+#below is where you will ask users to pick which way they want to go
+{% block body %}
+
+    <h1>Comic Information!</h1>
+
+        <a href="{{ url_for('characters')}}">Learn more about your favorite Marvel characters!</a><br>
+        <br>
+        <a href="{{ url_for('comics')}}">Database updates</a><br>
+        <br>
+        <a href="{{ url_for('game')}}">Marvel Game</a>
+
+
+{% endblock %}
+</body>

@@ -1,0 +1,75 @@
+{% extends 'base.html'%}
+<head>
+{% block head %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script></head>
+
+{% endblock %}
+{% block body %}
+<!-- Add icon library -->
+<body>
+<h1 class="title">Click here to learn about your favorite characters!</h1>
+<div class="title" id="output"></div>
+<br>
+<div class="grid-container">
+<input class="btn" type = "button" onclick="find_activity_types(value)" value="Thor"/>
+<input class="btn" type = "button" onclick="find_activity_types(value)" value="Iron Man"/>
+<input class="btn" type = "button" onclick="find_activity_types(value)" value="Adam Warlock"/>
+<input class="btn" type = "button" onclick="find_activity_types(value)" value="Agent X"/>
+<input class="btn" type = "button" onclick="find_activity_types(value)" value="A-Bomb"/>
+<input class="btn" type = "button" onclick="find_activity_types(value)" value="A.I.M"/>
+<input class="btn" type = "button" onclick="find_activity_types(value)" value="Abomination (Emil Blonsky)"/>
+
+
+</div>
+
+ <script type="text/javascript">
+
+
+
+var types_dic = {
+    'Thor': '1009664',
+    'Iron Man': '1009368',
+    'Adam Warlock': '1010354',
+    'Agent X': '1011031',
+    'A-Bomb': '1017100',
+    'A.I.M': '1009144',
+    'Abomination (Emil Blonsky)': '1009146',
+    'Abyss': '1009149'
+}
+
+function find_activity_types(value) {
+    var answer = types_dic[value]
+    console.log(answer);
+    var api_token = 'api_token'
+    var token = 'token'
+    var ts = new Date().getTime();
+    var hash = CryptoJS.MD5(ts + token + api_token).toString();
+    const state = 'http://gateway.marvel.com/v1/public/characters/' + answer
+    const url = state + '?ts=' + ts + '&apikey=' + api_token + '&hash=' + hash
+    const Http = new XMLHttpRequest();
+    Http.open("GET", url)
+
+    Http.onreadystatechange = (e) => {
+        var data = Http.responseText;
+        var jsonResponse = JSON.parse(data);
+        var data = jsonResponse['data']
+        var results = data['results']
+        var description = results[0].description;
+        console.log(results[0].description);
+        document.getElementById('output').innerHTML = description;
+    }
+    Http.send();
+}
+function saveHero(htmlString) {
+//send characters to database
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("POST", 'SaveFile', true);
+    xhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+    xhttp.send(JSON.stringify(htmlString));
+    xhttp.onreadystatechange = (e) => {
+    console.log(xhttp.responseText)
+    }
+ }
+</script>
+
+{% endblock %}

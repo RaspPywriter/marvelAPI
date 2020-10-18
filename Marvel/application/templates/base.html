@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name = "viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=chrome">
+    <!-- use jinja2 to block is for if/else statements url_for is a flask fun-->
+
+    <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+    <!-- this is Jinja 2 syntax to send text - this creates a block -->
+    <!-- where we are going to insert our code -->
+    {% block head %}{% endblock %}
+</head>
+<body>
+<i class="fa fa-home"></i><a href="{{ url_for('home')}}">Return Home</a><br/>
+
+<!-- this highlights where we are inserting our own code-->
+    {% block body %}{% endblock %}
+</body>
+</html>
